@@ -16,8 +16,7 @@ except (FileNotFoundError, KeyError):
 # possible subheaders 
 
 st.title("Practice Planner")
-st.subheader("Create Your 7-Day Practice Plan")
-st.markdown("Fill out the details below, and our AI music teacher will build a custom plan for you!")
+
 
 
 # prompt = f"""You are a professional music teacher. You are thoughtful and patient. Your students have trouble practicing every day 
@@ -55,6 +54,8 @@ Your final response should be cleanly formatted for direct display in a Streamli
 
 
 if 'practice_plan' not in st.session_state: 
+    st.subheader("Create Your 7-Day Practice Plan")
+    st.markdown("Fill out the details below, and our AI music teacher will build a custom plan for you!")
     with st.container(border=True):
         with st.form(key = "planForm"): 
             col1, col2 = st.columns(2)
@@ -116,12 +117,18 @@ else:
     #display the plan [using markdown - st.markdown(st.session_state.practice_plan)]
     st.divider()
     st.markdown(st.session_state.practice_plan)
+    
+    with st.container(border=True): 
+        st.markdown("###### How is your practice plan? ")
+        feedbk = st.feedback(options = "faces")
+        if feedbk != None:
+            st.success("Thank you for your feedback!")
 #if the student hits a make new plan button --> if st.button('newPlan'): 
     if newPlan:
         #clear the old plan and start over --> del st.session_state.practice_plan (deleting)
         del st.session_state.practice_plan
         #reset --> st.rerun()
         if 'instrument' in st.session_state:
-            del st.session_state.instrument_name 
+            del st.session_state.instrument
         st.rerun()
 
